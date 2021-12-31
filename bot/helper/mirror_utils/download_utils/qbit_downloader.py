@@ -140,7 +140,7 @@ def _qb_listener(listener, client, gid, ext_hash, select, meta_time, path):
             tor_info = tor_info[0]
             if tor_info.state == "metaDL":
                 stalled_time = time.time()
-                if time.time() - meta_time >= 999999999: # timeout while downloading metadata
+                if time.time() - meta_time >= 999: # timeout while downloading metadata
                     client.torrents_pause(torrent_hashes=ext_hash)
                     time.sleep(0.3)
                     listener.onDownloadError("Dead Torrent!")
@@ -194,7 +194,7 @@ def _qb_listener(listener, client, gid, ext_hash, select, meta_time, path):
                     LOGGER.info(f"Force recheck - Name: {tor_info.name} Hash: {ext_hash} Downloaded Bytes: {tor_info.downloaded} Size: {tor_info.size} Total Size: {tor_info.total_size}")
                     client.torrents_recheck(torrent_hashes=ext_hash)
                     rechecked = True
-                elif time.time() - stalled_time >= 999999999: # timeout after downloading metadata
+                elif time.time() - stalled_time >= 9999: # timeout after downloading metadata
                     client.torrents_pause(torrent_hashes=ext_hash)
                     time.sleep(0.3)
                     listener.onDownloadError("Dead Torrent!")
